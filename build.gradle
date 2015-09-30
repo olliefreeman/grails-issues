@@ -1,0 +1,103 @@
+buildscript {
+    ext {
+        grailsVersion = project.grailsVersion
+    }
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.grails.org/grails/core" }
+    }
+    dependencies {        
+        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
+        classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.5.0'
+        classpath "org.grails.plugins:hibernate:4.3.10.5"
+    }
+}
+
+plugins {
+    id "io.spring.dependency-management" version "0.5.2.RELEASE"
+}
+
+version "0.1"
+group "rollback.issue"
+
+apply plugin: "spring-boot"
+apply plugin: "war"
+apply plugin: "asset-pipeline"
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: "org.grails.grails-web"
+apply plugin: "org.grails.grails-gsp"
+
+ext {
+    grailsVersion = project.grailsVersion
+    gradleWrapperVersion = project.gradleWrapperVersion
+}
+
+assets {
+    minifyJs = true
+    minifyCss = true
+}
+
+repositories {
+    mavenLocal()
+    maven { url "https://repo.grails.org/grails/core" }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.grails:grails-bom:$grailsVersion"
+    }
+    applyMavenExclusions false
+}
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-logging"
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-autoconfigure"
+    compile "org.springframework.boot:spring-boot-starter-tomcat"
+    compile "org.grails:grails-dependencies"
+    compile "org.grails:grails-web-boot"
+
+    compile "org.grails.plugins:hibernate:$hibernatePluginVersion"
+    compile "org.grails.plugins:cache"
+    compile "org.hibernate:hibernate-ehcache"
+    compile "org.grails.plugins:scaffolding"
+
+    /*
+    Jadira provides the ability to support java8 time until grails uses hibernate 5
+    It should also be possible to extend some of the spi in jadira to support local types if necessary
+    It is very important to have the hibernate entitymanager otherwise jadia won't work
+     */
+    compile group: 'org.jadira.usertype', name: 'usertype.extended', version: '4.0.0.GA'
+    // Secondary dependencies for extended usertype
+    runtime group: 'org.hibernate', name: 'hibernate-entitymanager', version: hibernateVersion
+    runtime group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '7.0.4'
+    runtime group: 'javax.enterprise', name: 'cdi-api', version: '1.0'
+
+    // JAXB Support
+    compile group: 'org.eclipse.persistence', name: 'eclipselink', version: '2.6.0'
+
+    compile group: 'com.google.guava', name: 'guava', version: '18.0'
+
+
+    runtime "org.grails.plugins:asset-pipeline"
+    runtime group: 'org.javassist', name: 'javassist', version: '3.19.0-GA'
+    runtime group: 'org.postgresql', name: 'postgresql', version: postgresVersion
+
+
+
+
+    testCompile "org.grails:grails-datastore-rest-client:+"
+    testCompile "org.grails:grails-plugin-testing"
+    testCompile "org.grails.plugins:geb"
+
+    ["firefox", "chrome", "ie", "htmlunit"].each {driver ->
+        testRuntime "org.seleniumhq.selenium:selenium-$driver-driver:$seleniumVersion"
+    }
+
+    runtime "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = gradleWrapperVersion
+}
