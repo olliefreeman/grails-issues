@@ -13,6 +13,7 @@ class UrlMappings {
 
         group '/test', {
             '/rollbacks'(resources: "rollback")
+            '/belongs'(resources: 'has')
         }
     }
 }
