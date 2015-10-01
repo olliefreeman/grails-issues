@@ -12,7 +12,7 @@ class UrlMappings {
         "404"(view:'/notFound')
 
         group '/test', {
-            '/rollovers'(resources: "rollover")
+            '/rollbacks'(resources: "rollback")
         }
     }
 }

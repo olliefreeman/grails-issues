@@ -5,7 +5,7 @@ import grails.rest.Resource
 import java.time.LocalDate
 
 @Resource
-class Rollover {
+class Rollback {
 
     String name
     String test

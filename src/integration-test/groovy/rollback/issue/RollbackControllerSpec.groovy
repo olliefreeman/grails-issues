@@ -17,9 +17,9 @@ import java.time.LocalDate
 
 @Integration
 @Rollback
-class RolloverControllerSpec extends Specification {
+class RollbackControllerSpec extends Specification {
 
-    private static final Logger logger = LoggerFactory.getLogger(RolloverControllerSpec)
+    private static final Logger logger = LoggerFactory.getLogger(RollbackControllerSpec)
 
     @Resource
     MessageSource messageSource
@@ -37,7 +37,7 @@ class RolloverControllerSpec extends Specification {
 
     def setupData() {
 
-        new Rollover(
+        new rollback.issue.Rollback(
                 name: 'a name',
                 test: 'a value',
                 testDate: LocalDate.of(2015, 9, 28)
@@ -56,7 +56,7 @@ class RolloverControllerSpec extends Specification {
 
     void "test empty list"() {
         when: "call to index with no data"
-        response = rest.get("$baseUrl/test/rollovers")
+        response = rest.get("$baseUrl/test/rollbacks")
 
         then: 'the list is empty'
         response.statusCode == HttpStatus.OK
@@ -69,14 +69,14 @@ class RolloverControllerSpec extends Specification {
         setupData()
 
         when: 'call is made to index'
-        response = rest.get("$baseUrl/coreclinical/deaths")
+        response = rest.get("$baseUrl/test/rollbacks")
 
         then: 'there should be the domain returned in the list'
         response.statusCode == HttpStatus.OK
         response.xml.children().size() == 1
 
         and: 'there should be expected metadata in the xml'
-        response.xml.rollover.metadata.size() == 1
-        response.xml.rollover.metadata.'schema-name' == 'Death'
+        response.xml.rollback.metadata.size() == 1
+        response.xml.rollback.metadata.'schema-name' == 'Death'
     }
 }
