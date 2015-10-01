@@ -34,6 +34,8 @@ The only solution at the moment is to have the data bootstrapped in at the start
 
 # HasMany/BelongsTo Issue from databinding
 
+[Grails 3.0.8 hasMany/belongsTo validation and save issue](https://github.com/grails/grails-core/issues/9308)
+
 `Has` class is annotated with `@Resource` to make it available to a Restful interface
 
 ## To reproduce
