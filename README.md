@@ -32,7 +32,7 @@ grails> test-app rollback.issue.RollbackControllerSpec -integration
 Currently `@Rollback` annotation does not allow access to the JPA/Hibernate session which means even inside the test there is no way to save data to the database for extraction testing purposes.
 The only solution at the moment is to have the data bootstrapped in at the start of the test using the `Bootstrap` class. However this prevents testing against an empty database.
 
-# HasMany/BelongsTo Issue from databinding
+# HasMany/BelongsTo Issue from databinding **FIXED in grails 3.0.9**
 
 [Grails 3.0.8 hasMany/belongsTo validation and save issue](https://github.com/grails/grails-core/issues/9308)
 

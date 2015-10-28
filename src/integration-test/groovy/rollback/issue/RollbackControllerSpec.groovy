@@ -55,6 +55,10 @@ class RollbackControllerSpec extends Specification {
     }
 
     void "test empty list"() {
+
+        given:
+        !rollback.issue.Rollback.list()
+
         when: "call to index with no data"
         response = rest.get("$baseUrl/test/rollbacks")
 
