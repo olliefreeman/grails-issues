@@ -40,7 +40,7 @@ class SupremeParentSpec extends Specification implements DomainUnitTest<SupremeP
 
         then:
         !check(domain)
-        domain.errors.allErrors.size() == 1
+        domain.errors.allErrors.size() == 2
     }
 
     void "3: test invalid looped domain"() {
@@ -54,7 +54,7 @@ class SupremeParentSpec extends Specification implements DomainUnitTest<SupremeP
 
         then:
         !check(domain)
-        domain.errors.allErrors.size() == 1
+        domain.errors.allErrors.size() == 2
     }
 
     Logger getLogger() {
