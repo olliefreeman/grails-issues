@@ -14,6 +14,7 @@ class SupremeParent {
     }
 
     static hasMany = [
-            parents:Parent
+            alphaParents:AlphaParent,
+            betaParents: BetaParent
     ]
 }

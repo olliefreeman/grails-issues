@@ -1,7 +1,6 @@
 package rest.api.app
 
-
-import grails.rest.*
+import grails.rest.Resource
 
 @Resource(readOnly = false, formats = ['json', 'xml'])
 class AlphaChild {
@@ -12,7 +11,11 @@ class AlphaChild {
         description nullable: true
     }
 
+    static hasMany = [
+            betaChildren: BetaChild
+    ]
+
     static belongsTo = [
-            parent:Parent
+            betaParent: BetaParent
     ]
 }

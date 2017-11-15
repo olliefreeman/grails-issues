@@ -9,52 +9,46 @@ import spock.lang.Specification
 class SupremeParentSpec extends Specification implements DomainUnitTest<SupremeParent> {
 
     def setup() {
-        mockDomains(AlphaChild, BetaChild, Parent)
+        mockDomains(BetaParent, BetaChild, AlphaParent, AlphaChild)
     }
 
     void "1: test invalid domain"() {
         given:
         domain.label = 'Test supreme parent'
+        BetaParent betaParent = new BetaParent(label: 'test')
+        AlphaChild alphaChild = new AlphaChild(label: 'achild')
+        alphaChild.addToBetaChildren(description: 'desc')
+        betaParent.addToAlphaChildren(alphaChild)
+        domain.addToBetaParents(betaParent)
 
         when: 'creating a parent with invalid and valid children'
-        Parent parent = new Parent(label: 'parent')
-        parent.addToBetaChildren(new BetaChild())
-        parent.addToAlphaChildren(new AlphaChild())
-        domain.addToParents(parent)
+        AlphaParent parent = new AlphaParent(label: 'parent')
+        domain.addToAlphaParents(parent)
 
         then:
         !check(domain)
-        domain.errors.allErrors.size() == 2
+        domain.errors.allErrors.size() == 1
     }
 
     void "2: test invalid nested domain"() {
         given:
         domain.label = 'Test supreme parent'
+        BetaParent betaParent = new BetaParent(label: 'test')
+        AlphaChild alphaChild = new AlphaChild(label: 'achild')
+        alphaChild.addToBetaChildren(new BetaChild())
+        betaParent.addToAlphaChildren(alphaChild)
+        domain.addToBetaParents(betaParent)
 
         when: 'creating a parent with invalid and valid children'
-        Parent parent = new Parent(label: 'parent')
-        Parent parent1 = new Parent(label: 'parent1')
-        parent.addToBetaChildren(new BetaChild())
+        AlphaParent parent = new AlphaParent(label: 'parent')
+        domain.addToAlphaParents(parent)
+        AlphaParent parent1 = new AlphaParent(label: 'parent1')
         parent1.addToChildren(parent)
-        domain.addToParents(parent1)
+        domain.addToAlphaParents(parent1)
 
         then:
         !check(domain)
-        domain.errors.allErrors.size() == 2
-    }
-
-    void "3: test invalid looped domain"() {
-        given:
-        domain.label = 'Test supreme parent'
-
-        when: 'creating a parent with invalid and valid children'
-        Parent parent = new Parent(label: 'parent')
-        parent.addToChildren(new Parent())
-        domain.addToParents(parent)
-
-        then:
-        !check(domain)
-        domain.errors.allErrors.size() == 2
+        domain.errors.allErrors.size() == 1
     }
 
     Logger getLogger() {

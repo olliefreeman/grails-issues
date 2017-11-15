@@ -4,7 +4,7 @@ package rest.api.app
 import grails.rest.*
 
 @Resource(readOnly = false, formats = ['json', 'xml'])
-class BetaChild {
+class BetaParent {
     String label
     String description
 
@@ -12,7 +12,11 @@ class BetaChild {
         description nullable: true
     }
 
+    static hasMany = [
+            alphaChildren: AlphaChild
+    ]
+
     static belongsTo = [
-            alphaChild: BetaParent
+            supremeParent:SupremeParent
     ]
 }

@@ -1,10 +1,9 @@
 package rest.api.app
 
-
-import grails.rest.*
+import grails.rest.Resource
 
 @Resource(readOnly = false, formats = ['json', 'xml'])
-class Parent {
+class AlphaParent {
 
     String label
     String description
@@ -14,15 +13,15 @@ class Parent {
     }
 
     static hasMany = [
-            alphaChildren: AlphaChild,
-            betaChildren: BetaChild,
-            children: Parent
+            children: AlphaParent
     ]
 
     static belongsTo = [
-            supremeParent:SupremeParent,
-            parent: Parent
+            supremeParent: SupremeParent,
+            parent       : AlphaParent
     ]
 
-
+    static mapping = {
+        children cascade: 'all-delete-orphan'
+    }
 }
