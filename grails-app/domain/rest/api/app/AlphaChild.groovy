@@ -2,8 +2,10 @@ package rest.api.app
 
 import grails.rest.Resource
 
+import java.time.OffsetDateTime
+
 @Resource(readOnly = false, formats = ['json', 'xml'])
-class AlphaChild {
+class AlphaChild implements CreatedAndUpdatedAware{
     String label
     String description
 

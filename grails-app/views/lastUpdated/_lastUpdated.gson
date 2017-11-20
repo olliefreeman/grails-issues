@@ -1,0 +1,9 @@
+import rest.api.app.CreatedAndUpdatedAware
+
+model {
+    CreatedAndUpdatedAware item
+}
+
+json {
+    lastUpdated item.lastUpdated
+}

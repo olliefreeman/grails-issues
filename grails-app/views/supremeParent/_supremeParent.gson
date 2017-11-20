@@ -1,0 +1,13 @@
+import rest.api.app.SupremeParent
+
+
+inherits(template: '/lastUpdated/lastUpdated', model: [item: supremeParent])
+
+model{
+    SupremeParent supremeParent
+}
+
+json {
+    label supremeParent.label
+    dateCreated supremeParent.dateCreated
+}
